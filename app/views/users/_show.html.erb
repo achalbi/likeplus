@@ -38,45 +38,45 @@
                                     <li>
                                         <div class="section">
                                             <h4 class="nm">
-                                              <i class="flaticon-add185 icon-red img-responsive center_block icon-font-30"></i>
+                                              <i class="flaticon-add185 icon-grey img-responsive center_block icon-font-30"></i>
                                             </h4>
-                                            <h4 class="nm mt5"><%= current_user.rels(dir: :incoming, type: "likes").count %></h4>
+                                            <h4 class="nm mt5 icon-grey"><%= current_user.rels(dir: :incoming, type: "likes").count %></h4>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="section">
                                             <h4 class="nm">
-                                              <i class="flaticon-medal3 icon-gold img-responsive center_block icon-font-35"></i>
+                                              <i class="flaticon-medal3 icon-grey img-responsive center_block icon-font-35"></i>
                                             </h4>
-                                            <h4 class="nm mt5"><%= current_user.getBadges.where(status: true).count %></h4>
+                                            <h4 class="nm mt5 icon-grey"><%= current_user.getBadges.where(status: true).count %></h4>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="section">
                                             <h4 class="nm">
-                                              <i class="flaticon-quill1 icon-blue img-responsive center_block icon-font-35"></i></h4>
-                                            <h4 class="nm mt5"><%= @testimonials.nil? ? 0 : @testimonials.count %></h4>
+                                              <i class="flaticon-quill1 icon-grey img-responsive center_block icon-font-35"></i></h4>
+                                            <h4 class="nm mt5 icon-grey"><%= @testimonials.nil? ? 0 : @testimonials.count %></h4>
                                         </div>
                                     </li>
-                                    <li>
+                                    <li class="">
                                         <div class="section">
                                             <h4 class="nm">
-                                              <i class="ico-map-marker icon-red-lite img-responsive center_block icon-font-35"></i></h4>
-                                            <h4 class="nm mt5"><%= @locations.nil? ? 0 : @locations.count %></h4>
+                                              <i class="ico-map-marker icon-grey img-responsive center_block icon-font-35"></i></h4>
+                                            <h4 class="nm mt5 icon-grey"><%= @locations.nil? ? 0 : @locations.count %></h4>
                                         </div>
                                     </li>                                    
                                     <li class="dis-none-imp">
                                         <div class="section">
                                             <h4 class="nm">
-                                              <i class="flaticon-stack21 icon-green img-responsive center_block icon-font-35"></i></h4>
-                                            <h4 class="nm mt5"><%= @pictures.nil? ? 0 : @pictures.count %></h4>
+                                              <i class="flaticon-stack21 icon-grey img-responsive center_block icon-font-35"></i></h4>
+                                            <h4 class="nm mt5 icon-grey"><%= @pictures.nil? ? 0 : @pictures.count %></h4>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="section">
                                             <h4 class="nm">
-                                              <i class="ico-star icon-ubuntu img-responsive center_block icon-font-35"></i></h4>
-                                            <h4 class="nm mt5"><%= @interests_count.nil? ? 0 : @interests_count %></h4>
+                                              <i class="ico-star icon-grey img-responsive center_block icon-font-35"></i></h4>
+                                            <h4 class="nm mt5 icon-grey"><%= @interests_count.nil? ? 0 : @interests_count %></h4>
                                         </div>
                                     </li>
                                 </ul>
@@ -86,7 +86,7 @@
                                       <!-- START Bio -->
                                       <div class="panel-toolbar-wrapper hidden-md hidden-lg">
                                           <div class="panel-toolbar">
-                                              <h5 class="semibold nm text-info"><i class="ico-info2 mr5"></i>About me</h5>
+                                              <h5 class="semibold nm icon-black-lite"><i class="ico-info2 mr5"></i>About me</h5>
                                           </div>
                                       </div>
                                       <div class="panel-body pt0  hidden-md hidden-lg">
@@ -137,6 +137,15 @@
                                       <h3 class="panel-title">Dating requests</h3>
 
                                   </div>
+                                    <h5 class="nm icon-black-lite">
+                                  <div class="panel-toolbar pt10 pb10 pl10">
+                                    <i class="flaticon-couple8 mr5 font-20"></i>
+                                    <span class="semibold">Looking for a Date?</span> 
+                                    <span id="godate_div" class="ml15">
+                                      <%= render 'users/godate' %>
+                                    </span>
+                                  </div>
+                                    </h5>
                                   <!--/ panel heading/header -->
                                   <hr class="nm"><!-- horizontal line -->
                                     <%= render 'users/date_status_list' %>
@@ -191,7 +200,7 @@
                                   <!-- panel body with collapse capable -->
                                   <div class="panel-collapse pull out">
                                       <div class="panel-body" id="places_block">
-                                          <%= render partial: "locations/places", :locals => {:user => current_user} %>
+                                          <%= render partial: "locations/places_plain", :locals => {:user => current_user} %>
                                       </div>
                                   </div>
                                   <!--/ panel body with collapse capabale -->
@@ -271,7 +280,7 @@
                           </div>
 
                           <!-- Right Side / Bottom side -->
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 dis-none-imp">
                         <div class="panel panel-minimal nm">
 
                            <div class="panel-toolbar-wrapper " id="date_div" >
@@ -373,10 +382,10 @@
       <div class="modal-body pb0">
       <div class="form-group mb0">
           <div class="input-group">
-                  <div class="col-sm-12">
+                  <div class="col-sm-12 dis-none-imp">
                     <label class="col-sm-2 control-label mt5">Type</label>
                     <div class="col-sm-4">
-                      <%= f.select :place_type, options_for_select([ "Work", "Education", "Home", "Other" ], "Work") %>
+                      <%= f.select :place_type, options_for_select([ "Work", "Education", "Home", "Other" ], "Other") %>
                     </div>
                     <label class="col-sm-2 control-label mt5 pl0 pr0" title="Currently working / Studying / Residing ">Current place</label>
                     <div class="col-sm-4 mt5" >
@@ -390,18 +399,18 @@
                       </span>
                     </div>
                   </div>
-                  <div class="col-sm-12">
+                  <div class="col-sm-12 dis-none-imp">
                     <label class="col-sm-2 control-label mt15">Details</label>
                     <div class="col-sm-10">
                       <%= f.text_field :details , class: "form-control mt10" %>
                       <span class="help-block mb0">Working as / Studying at / other details </span>
                     </div>
                   </div>
-                  <div class="col-sm-12 mb10">
-                    <label class="col-sm-2 control-label mt15">Name</label>
-                    <div class="col-sm-10">
-                      <%= f.text_field :name , class: "form-control mt10" %>
-                    </div>
+                  <div class="col-sm-12">
+                    <!-- <label class="col-sm-2 control-label mt15">Name</label> -->
+                    <span class="">
+                      <%= f.text_field :name , class: "form-control mt10 mb15", :placeholder => "Name" %>
+                    </span>
                   </div>
             </div>
         </div>
@@ -520,9 +529,9 @@
       <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
       Profile pictures
-      <a href="/pictures/import_fb_pictures" class="ml50 btn btn-success ladda-button mb5" data-style="expand-right" id="import_fb_pics" data-remote="true" ><span class="ladda-label">Import profile pictures from Facebook</span></a>
+      <a href="/pictures/import_fb_pictures" class="ml50 btn btn-success ladda-button mt10-sm" data-style="expand-right" id="import_fb_pics" data-remote="true" ><span class="ladda-label">Import pictures from Facebook</span></a>
       </div>
-      <div class="modal-body" id="pics_modal_body">
+      <div class="modal-body set-vh-sm" id="pics_modal_body">
               <div class="indicator"><span class="spinner" /></div>
       </div>
 
