@@ -380,8 +380,8 @@
   }
 
   .plr0-sm{
-    padding-left: 0px;
-    padding-right: 0px;
+    padding-left: 0px!important;
+    padding-right: 0px!important;
   }
 
   .mt10-sm{
@@ -390,6 +390,19 @@
   .set-vh-sm{
     overflow-y: scroll;
     max-height: 450px;
+  }
+
+  .mlr10-sm{
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .plr10-sm{
+    padding-left: 10px!important;
+    padding-right: 10px!important;
+  }
+  .plr5-sm{
+    padding-left: 5px!important;
+    padding-right: 5px!important;
   }
 } 
 
