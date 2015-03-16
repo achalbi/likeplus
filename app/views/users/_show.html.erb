@@ -458,13 +458,13 @@
           <div class="form-group">
             <div class="panel">
               <div class="panel-body">
-                  <div class="btn-tag">
+                  <div class="btn-tag int-pg-1">
                     <% ["Adventure","Art & Craft","Blogging","Board games","Cooking","Driving / Riding","Exploring","Fitness","Foodie","Gardening","Gym","Martial arts","Mechanic","Movies","Music","Pet lover" ,"Photography","Playing instument","Puzzle solving","Books","Shopaholic","Sports","Singing","Video games","Yoga","Other"].each do |k| %>
                             <a href="javascript:void(0);" class="btn btn btn-teal btn-outline mb5 btn-sm interest-btn"><%= "#{k}"  %></a>
                              
                      <% end %>
                     </div>
-                  <div class="input-group">
+                  <div class="input-group int-pg-2">
                     <label class="col-sm-3 control-label mt10">Type</label>
                     <div class="col-sm-9">
                       <%= f.text_field 'interestType', class: "form-control mt10", readonly: true, id: "new_interestType" %>
@@ -502,6 +502,7 @@
       </div>
       <div class="modal-footer">
           <div id="interest_submit_div" class="dis-none-imp" >
+          <button type="reset" class="btn btn-warning mb5 pull-left" id="interest-back-btn">Back</button>
           <button type="submit" class="btn btn-primary ladda-button mb5" data-style="expand-right" id="interest_submit_btn"><span class="ladda-label">Submit</span><span class="ladda-spinner"></span></button>
           
           </div>  
@@ -692,6 +693,14 @@ $('.search-query').blur(function(e) {
 });
 
 $("#address_submit").hide(); 
+$(".int-pg-2").hide(); 
+$("#interest-back-btn").hide(); 
+
+$("#interest-back-btn").click(function(){
+  $(".int-pg-1").show(); 
+  $(".int-pg-2").hide(); 
+  $(this).hide();
+});
 
 $(".interest-btn").click(function(){
   $(this).parent().children('a').removeClass("btn-outline");
@@ -699,6 +708,10 @@ $(".interest-btn").click(function(){
   $(this).removeClass("btn-outline");
   $("#new_interestType").val($(this).text());
   $("#interest_submit_div").removeClass('dis-none-imp');
+  $("#interest-back-btn").show(); 
+  $(".int-pg-2").show(); 
+  $(".int-pg-1").hide(); 
+  
 });
 
 $("#interest_submit_btn").click(function(e){
