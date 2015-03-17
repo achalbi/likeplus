@@ -13,7 +13,7 @@
 			       <b>Edit Location</b>
 			      </div>
 			      <div class="modal-body">
-			         <div class="input-group">
+			         <div class="input-group dis-none-imp">
 	                  <div class="col-sm-12">
 	                    <label class="col-sm-2 control-label mt5">Type</label>
 	                    <div class="col-sm-4">
@@ -38,16 +38,14 @@
                       		<span class="help-block mb0">Working as / Studying at / other details </span>
 	                    </div>
 	                  </div>
-	                  <div class="col-sm-12 mb10">
+            		</div>
+	                  <div class="input-group col-sm-12 mb10">
 	                    <label class="col-sm-2 control-label mt15">Name</label>
 	                    <div class="col-sm-10">
 	                      <%= f.text_field :name , class: "form-control mt10", id: "loc_name_#{ loc.uuid }" %>
 	                    </div>
 	                  </div>
-            </div>
-			      <div class="form-group googlemap">
-			      	<%=  render partial: 'locations/static_map', locals: {loc: loc } %>
-			      </div>
+
 			      </div>
 			      <div class="modal-footer">
 			          <div>
@@ -83,12 +81,12 @@
 
  </div>
  <script type="text/javascript">
-	$(".location_div").find('a').hide();
+/*	$(".location_div").find('a').hide();
 	$(".location_div").hover(function(){
 		$(this).find('a').show();
 	},function(){
 		$(this).find('a').hide();
-	});
+	});*/
 		 	$(".location_edit_submit_btn").click(function(){
 			  $(".modal").modal('hide');
 			});

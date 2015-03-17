@@ -23,12 +23,13 @@ def destroy
       current_user.rels(type: :places, between: @location)[0].destroy
       @location.rels(dir: :outgoing, type: "location_details")[0].destroy
       @location.destroy
-      @locations = @user.places
+      @locations = current_user.places
 end
 
 def update
 	@location = MyLocation.find(params[:id])
 	@location.update!(my_location_params)
+  @locations = current_user.places
 end
 
 private
