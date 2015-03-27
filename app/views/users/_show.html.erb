@@ -32,7 +32,7 @@
                             </div>
                                 <!--/ blockquote -->
                             <!-- panel body -->
-                            <div class="panel-body pl5 pr5">
+                            <div class="panel-body np">
                                  <!-- Nav section -->
                                 <ul class="nav nav-section nav-justified">
                                     <li>
@@ -131,7 +131,7 @@
                                   </div>
                               </div>
 
-                              <div class="panel panel-default overflow-hidden mlr10-sm">
+                              <div class="panel panel-default overflow-hidden mlr10-sm hide">
                                                                   <!-- panel heading/header -->
                                   <div class="panel-heading">
                                       <h3 class="panel-title">Dating requests</h3>
@@ -308,12 +308,12 @@
                             <hr class="hidden-sm hidden-xs"><!--horizontal line -->
 
                             <!-- START like lists -->
-                            <div class="panel-toolbar-wrapper">
+                            <div class="panel-toolbar-wrapper hide">
                                 <div class="panel-toolbar">
                                     <h5 class="semibold nm icon-black-lite"><i class="ico-users3 mr5"></i>Followers</h5>
                                 </div>
                             </div>
-                            <div class="panel-body pt0">
+                            <div class="panel-body pt0 hide">
                                 <div class="media-list media-list-contact">
                                       <% @visit_rels = current_user.rels(dir: :incoming, type: "likes")  %>
                                       <% if @visit_rels.count > 0 %>
