@@ -36,8 +36,8 @@ module Likeplus
     config.neo4j.session_type = :server_db
     #config.neo4j.session_path = 'http://104.155.201.36:7474'
     #config.neo4j.session_path = ENV['GRAPHENEDB_URL'] || 'http://107.167.180.205:7474'
-    config.neo4j.session_path = ENV['GRAPHSTORY_URL'] || 'http://localhost:7474'
-    #config.neo4j.session_path = 'http://youthilu:TOnO9b09UIJlLkmzoa0Y@youthilu.sb02.stations.graphenedb.com:24789' || 'http://localhost:7474'
+    #config.neo4j.session_path = ENV['GRAPHSTORY_URL'] || 'http://localhost:7474'
+    config.neo4j.session_path = 'http://youthilu:TOnO9b09UIJlLkmzoa0Y@youthilu.sb02.stations.graphenedb.com:24789' || 'http://localhost:7474'
     #config.neo4j.session_path = 'http://app28846332:lMtQ5gb9Om0KgG2IGoYx@app28846332.sb02.stations.graphenedb.com:24789' || 'http://localhost:7474'
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]

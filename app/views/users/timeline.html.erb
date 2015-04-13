@@ -2,6 +2,28 @@
 	<div class="col-md-12">
 		<!-- START Timeline -->
 		<ul class="timeline">
+                            <li class="header mt15">
+                                <!-- Post form -->
+                                <%= form_for(Post.new, remote: true)  do  |f| %>
+                                <div class="panel">
+                                	<%= f.text_area :content,  rows: 2, class: 'form-control form-control-minimal', placeholder: 'Write post...'  %>
+                                    <div class="panel-footer">
+                                        <div class="panel-toolbar-wrapper">
+                                            <div class="panel-toolbar">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-default"><i class="ico-camera3"></i></button>
+                                                    <button type="button" class="btn btn-default"><i class="ico-location"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="panel-toolbar text-right">
+                                                <button type="submit" class="btn btn-primary">Post</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% end %>
+                                <!--/ Post form -->
+                            </li>
 			<li class="header year ellipsis">Now</li>
 			<li class="wrapper">
 				<!-- START Events -->

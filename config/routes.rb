@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   resources :my_badges, only: [:create, :destroy, :update, :like],controller: 'badges'
   resources :pictures do
     collection do
-      get :new_upload_form, :pics_edit, :set_default_pic, :set_visible_pic, :import_fb_pictures
+      get :new_upload_form, :new_upload_post_form, :pics_edit, :set_default_pic, :set_visible_pic, :import_fb_pictures
     end
   end
 
@@ -45,6 +45,10 @@ Rails.application.routes.draw do
 
   resources :conversations , only: [:show] do
     resources :messages, only: [:create]
+  end
+  
+  resources :posts do
+    resources :comments, shallow: true
   end
 
   mount Sidekiq::Web, at: '/sidekiq'

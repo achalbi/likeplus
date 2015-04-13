@@ -1,10 +1,20 @@
 class PicturesController < ApplicationController
 
 def create
-	@picture = Picture.create(picture_params)
+	@picture = Picture.create!(picture_params)
 	@user = current_user
-	@my_pictures = MyPicture.create(from_node: @user, to_node: @picture)
-	@pictures = @user.pictures.nil? ? []: @user.pictures.where(visible: true)
+	if !params[:pic_type].nil? && params[:pic_type] == 'post'
+	  @post_picture = UserPostPicture.create(from_node: @user, to_node: @picture)
+	  
+	  respond_to do |format|
+        format.js { render 'create_post_pic'  }
+        format.json { }
+    end
+	else  
+	#  @my_pictures = MyPicture.create(from_node: @user, to_node: @picture)
+	#  @pictures = @user.pictures.nil? ? []: @user.pictures.where(visible: true)
+	end
+	  
 end
 
 def destroy
@@ -22,6 +32,9 @@ def update
 end
 
 def new_upload_form
+end
+
+def new_upload_post_form
 end
 
 def pics_edit

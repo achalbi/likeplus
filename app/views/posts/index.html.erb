@@ -1,0 +1,138 @@
+<div class="row mt10">
+	<div class="col-md-12">
+		<!-- START Timeline -->
+
+                                <!-- Post form -->
+                                <%= form_for(Post.new)  do  |f| %>
+                                <div class="panel">
+                                	<%= f.text_area :content,  rows: 2, class: 'form-control form-control-minimal', placeholder: 'Write post...'  %>
+                                    <div class="panel-footer">
+                                        <div class="panel-toolbar-wrapper">
+                                            <div class="panel-toolbar">
+                                                <div class="btn-group">
+                                                    <a href="#post_pic_modal" role="button" data-toggle="modal" class="btn btn-default"><i class="ico-camera3"></i></a>
+                                                    <button type="button" class="btn btn-default"><i class="ico-location"></i></button>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary pull-right">Post</button>
+                                            </div>
+                                            <div id="post_type"></div>
+                                           <!-- <div class="panel-toolbar text-right"></div>-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <% end %>
+                                <!--/ Post form -->
+
+					<% @results.each do |result| %>
+					    <% post = result[0]  %>
+					    <% user = result[1]  %>
+						 <!-- 1/2 Grid -->
+                            <div class="col-lg-6 np">
+                                <!-- Text/status post -->
+                                <div class="panel">
+                                    <!-- User info -->
+                                    <ul class="list-table pa15">
+                                        <li class="text-left" style="width:60px;">
+                                            <img class="img-circle" src="<%= cloudinary_url( user.default_pic, :width => 50, :height => 50, :crop => :fill, :gravity => :faces) %>" alt="<%= user.name %>" width="50px" height="50px">
+                                        </li>
+                                        <li class="text-left">
+                                            <p class="ellipsis nm"><span class="semibold"><%= user.name %></span> wrote</p>
+                                            <p class="text-muted nm"><%= timeago_tag post.updated_at, :nojs => true, :limit => 10.days.ago %></p>
+                                        </li>
+                                        <li class="text-right" style="width:60px;">
+                                            <div class="btn-group">
+                                            <button type="button" class="btn btn-link dropdown-toggle text-default" data-toggle="dropdown"><i class="ico-menu2"></i></button>
+                                                <ul class="dropdown-menu dropdown-menu-right">
+                                                    <li><a href="javascript:void(0);">Report</a></li>
+                                                    <li><a href="javascript:void(0);">Setting</a></li>
+                                                    <li class="divider"></li>
+                                                    <li><a href="javascript:void(0);" class="text-danger">Delete post</a></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <!--/ User info -->
+                                    <hr class="nm"><!-- horizontal line -->
+                                    <div class="panel-body">
+                                        <%= post.content %>
+                                    </div>
+                                    <% if !post.post_type.nil? && post.post_type == 'pic' %>
+                                    <div class="thumbnail thumbnail-album">
+                                        <!-- media -->
+                                        <div class="media">
+                                            <!-- indicator -->
+                                            <div class="indicator"><span class="spinner"></span></div>
+                                            <!--/ indicator -->
+                                            <img data-toggle="unveil" src="<%= cloudinary_url( post.postPictures[0].pic, :width => 350, :height => 350, :crop => :fill) %>" data-src="<%= cloudinary_url( post.postPictures[0].pic, :width => 350, :height => 200, :crop => :fill) %>" alt="Cover" width="100%" class="unveiled">
+                                        </div>
+                                        <!--/ media -->
+                                    </div>
+                                    <% end %>
+                                    <hr class="nm"><!-- horizontal line -->
+                                    <!-- Toolbar -->
+                                    <div class="panel-toolbar-wrapper">
+                                        <div class="panel-toolbar">
+                                            <a href="javascript:void(0);" class="semibold text-default">Comment</a>
+                                            <span class="text-muted mr5 ml5">&#8226;</span>
+                                            <a href="javascript:void(0);" class="semibold text-default">Love this</a>
+                                            <span class="text-muted mr5 ml5">&#8226;</span>
+                                            <a href="javascript:void(0);" class="semibold text-default">Share</a>
+                                        </div>
+                                    </div>
+                                    <!-- Comment box -->
+                                    <%= form_for [post, Comment.new ], remote: true do |f| %>
+                                    <%= f.text_field :content , class: "form-control form-control-minimal ht50", placeholder: "Write your comment" %>
+                                    <%= f.submit "", class: "hide" %>
+                                    <% end %>
+                                    <!--/ Comment box -->
+                                    <hr class="nm"> <!-- horizontal line -->
+                                    <!--/ Toolbar -->
+                                    <div id="post_comment_<%= post.id %>">
+                                    <% 	@results = Neo4j::Session.query.match("(post { uuid: '#{post.uuid}' })-[:postComment*..]->(comment),(comment)<-[:userComment]-(user)").order("comment.created_at DESC").limit(80).pluck(:comment, :user) %>
+                                    <% if @results.count > 0 %>
+                                    <div class="panel-body slimscroll np">
+                                        <!-- Comment list -->
+                                        <ul class="media-list">
+                                            <% @results.each do |result| %>
+                                            <% comment = result[0]%>
+                                            <% user = result[1]%>
+                                                    <li class="media border-dotted">
+                                                        <a href="javascript:void(0);" class="pull-left">
+                                                            <img class="img-circle media-object" src="<%= cloudinary_url( user.default_pic, :width => 50, :height => 50, :crop => :fill, :gravity => :faces) %>" alt="<%= user.name %>" width="50px" height="50px">
+                                                        </a>
+                                                        <div class="media-body">
+                                                            <p class="media-heading"><%= comment.userComment.name %></p>
+                                                            <p class="media-text"><%= comment.content %></p>
+                                                            <!-- meta icon -->
+                                                            <p class="media-meta pull-right"><%= timeago_tag comment.created_at, :nojs => true, :limit => 10.days.ago %></p>
+                                                            <!--/ meta icon -->
+                                                        </div>
+                                                    </li>
+                                            <% end %>
+                                        </ul>
+                                        <!--/ Comment list -->
+                                    </div>
+                                    <% end %>
+                                    </div>
+                                </div>
+                                <!--/ Text/status post -->
+                            </div>
+                            <!--/ 1/2 Grid -->
+					<% end %>
+
+	</div>
+</div>
+<div id="post_pic_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+    <div id="upload_pic">
+      <%= render 'pictures/upload_post_pic'%>
+    </div>
+
+  </div>
+</div>
+</div>
+<script>
+  $("#li_timeline").addClass("active");
+//  $("#minimize_sidebar_a").click();
+</script>

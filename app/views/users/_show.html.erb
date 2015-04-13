@@ -557,8 +557,6 @@ $('#pics_link').click(function(){
   $.getScript( "pictures/pics_edit");
 });
 
-$.cloudinary.config('cloud_name', 'rashi');
-
 
   $('.upload_field').unsigned_cloudinary_upload("shyhero", 
     { cloud_name: 'rashi', tags: 'uploads' }, 

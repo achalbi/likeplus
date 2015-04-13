@@ -1,9 +1,9 @@
 class InterestsController < ApplicationController
 
 def create
-	@interest = Interest.create(interest_params)
+	@interest = Interest.create!(interest_params)
 	@user = User.find(params[:user_id])
-	@rel =  MyInterest.create(from_node: @user, to_node: @interest)
+	@rel =  MyInterest.create!(from_node: @user, to_node: @interest)
 	@interests = @user.userInterests
 	@interests_count = @interests.count
 end

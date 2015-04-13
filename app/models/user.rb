@@ -47,6 +47,7 @@ class User
   has_many :out, :likes_testimonial, model_class: Testimonial,  rel_class: Like_testimonial
   has_many :in, :testimonials, model_class: Testimonial,  rel_class: My_testimonial
   has_many :out, :pictures,  model_class: Picture,  rel_class: MyPicture
+  has_many :out, :userPostPictures,  model_class: Picture,  rel_class: UserPostPicture
   has_many :out, :userInterests,  model_class: Interest,  rel_class: MyInterest
   #has_one :out, :default_pics,  model_class: Picture,  rel_class: Profile
   has_many :out, :visits,  model_class: User,  rel_class: Visit
@@ -55,6 +56,8 @@ class User
   has_many :out, :add_status,  model_class: User,  rel_class: Add_status
   has_many :out, :giveBadges,  model_class: MyBadge,  rel_class: GiveBadge
   has_many :out, :getBadges,  model_class: MyBadge,  rel_class: GetBadge
+  has_one :out, :latestpost, model_class: Post, rel_class: LatestPost
+  has_one :out, :userComment,  model_class: Comment,  rel_class: UserComment
 
   #has_one :out, :users_place, type: :users_place, model_class: Location
   #has_n(:friends).to(User).relationship(Friend)
