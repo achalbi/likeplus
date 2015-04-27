@@ -10,9 +10,23 @@ def create
     end
      @user = User.find(params[:user_id])
      @myLocation = MyLocation.create(my_location_params)
-     @place_rel =  Place.create(from_node: @user, to_node: @myLocation)
+        if !params[:user_id].nil? && params[:location_for] == 'post'
+            @place_rel =  PostPlace.create(from_node: @user, to_node: @myLocation)
+        else
+            @place_rel =  Place.create(from_node: @user, to_node: @myLocation)
+        end
 	   @loc_rel =  LocationMaster.create(from_node: @myLocation, to_node: @location)
 	   @locations = @user.places
+	   
+	respond_to do |format|
+        format.js {
+    	    if !params[:user_id].nil? && params[:location_for] == 'post'
+                render 'create_post_loc' 
+            end
+            }
+        format.json { }
+    end
+
 =begin
 =end
 

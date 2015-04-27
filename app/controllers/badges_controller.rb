@@ -9,7 +9,7 @@ def create
       return
     end
       @badge = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' })-[:giveBadges]->(myBadge)<-[:getBadges]-(user { uuid: '#{params[:user_id]}' })").where("   myBadge.badgeType = '#{badgeType}'  ").pluck(:myBadge)
-    if @badge.count > 0
+    if @badge.count > 0 && params[:post_id].nil?
       @req_badges = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' })-[:giveBadges]->(myBadge)<-[:getBadges]-(user { uuid: '#{@user.uuid}' })").where("   myBadge.status = false  ").pluck(:myBadge)
       @badges = Neo4j::Session.query.match("(me { uuid: '#{@user.uuid}' })-[:getBadges]->(myBadge)").where("myBadge.status = true").pluck('DISTINCT myBadge.badgeType, count(myBadge.badgeType)')
       return
@@ -19,9 +19,21 @@ def create
      @give_badge_rel =  GiveBadge.create(from_node: current_user, to_node: @myBadge)
      @badge_detail_rel =  BadgeDetail.create(from_node: @myBadge, to_node: @badge)
      @get_badge_rel =  GetBadge.create(from_node: @user, to_node: @myBadge)
+     unless params[:post_id].nil?
+       @post = Post.find(params[:post_id])
+       @post_badge_rel =  PostBadge.create(from_node: @post, to_node: @myBadge)
+     end
      @req_badges = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' })-[:giveBadges]->(myBadge)<-[:getBadges]-(user { uuid: '#{@user.uuid}' })").where("   myBadge.status = false  ").pluck(:myBadge)
      @badges = Neo4j::Session.query.match("(me { uuid: '#{@user.uuid}' })-[:getBadges]->(myBadge)").where("myBadge.status = true").pluck('DISTINCT myBadge.badgeType, count(myBadge.badgeType)')
-
+     @post_badges = Neo4j::Session.query.match("(post { uuid: '#{@post.uuid}' })-[:postBadges*..]->(myBadge)").pluck('DISTINCT myBadge.badgeType, count(myBadge.badgeType)')
+    	respond_to do |format|
+        format.js {
+    	    unless params[:post_id].nil?
+                render 'add_tag' 
+            end
+            }
+        format.json { }
+    end
 end
 
 def destroy
@@ -53,7 +65,8 @@ end
 
 def badge_list
   @user = User.find(session['user_id'])
-  @badges = @user.getBadges.where(badgeType: params[:type], status: true)
+  #@badges = @user.getBadges.where(badgeType: params[:type], status: true)
+  @badges = @user.getBadges.where(badgeType: params[:type])
   render :layout => false
 end
 

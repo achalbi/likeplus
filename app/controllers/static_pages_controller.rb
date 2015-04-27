@@ -11,8 +11,9 @@ class StaticPagesController < ApplicationController
       @longitude = nil #'77.5945627'
       @interests = @user.userInterests
       @interests_count = @interests.count
-      @req_badges = Neo4j::Session.query.match("(any_user)-[:giveBadges]->(myBadge)<-[:getBadges]-(user { uuid: '#{@user.uuid}' })").where("   myBadge.status = false  ").pluck(:myBadge)
-      @badges = Neo4j::Session.query.match("(me { uuid: '#{@user.uuid}' })-[:getBadges]->(myBadge)").where("myBadge.status = true").pluck('DISTINCT myBadge.badgeType, count(myBadge.badgeType)')
+      #@req_badges = Neo4j::Session.query.match("(any_user)-[:giveBadges]->(myBadge)<-[:getBadges]-(user { uuid: '#{@user.uuid}' })").where("   myBadge.status = false  ").pluck(:myBadge)
+      #@badges = Neo4j::Session.query.match("(me { uuid: '#{@user.uuid}' })-[:getBadges]->(myBadge)").where("myBadge.status = true").pluck('DISTINCT myBadge.badgeType, count(myBadge.badgeType)')
+      @badges = Neo4j::Session.query.match("(me { uuid: '#{@user.uuid}' })-[:getBadges]->(myBadge)").pluck('DISTINCT myBadge.badgeType, count(myBadge.badgeType)')
       @locations = @user.places
   	end
   end

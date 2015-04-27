@@ -39,6 +39,7 @@ class User
   has_many :both, :friend_girls,  model_class: User,  rel_class: Friend_girl
   has_many :both, :friend_boys,  model_class: User,  rel_class: Friend_boy
   has_many :out, :places,  model_class: MyLocation,  rel_class: Place
+  has_many :out, :post_places,  model_class: MyLocation,  rel_class: PostPlace
   has_many :out, :likes, model_class: User,  rel_class: Like
   has_many :out, :crush, model_class: User,  rel_class: Crush
   has_many :out, :godate, model_class: User,  rel_class: GoDate

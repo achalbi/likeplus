@@ -15,6 +15,8 @@ class MyLocation
  
 
   has_one :in, :places,  model_class: User,  rel_class: Place
+  has_one :in, :post_places,  model_class: User,  rel_class: PostPlace
+  has_one :in, :post_location,  model_class: Post,  rel_class: PostLocation
   has_one :out, :location_details,  model_class: Location,  rel_class: LocationMaster
   #has_many :in, :users, origin: :users_place
 end

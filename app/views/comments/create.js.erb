@@ -1,1 +1,2 @@
 $("#post_comment_<%= @post.id %>").html("<%= j render partial: 'list' %>");
+$("#post_comment_form_<%= @post.id %>").html("<%= j render partial: 'form', locals: {post: @post } %>");

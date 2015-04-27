@@ -1,7 +1,8 @@
 class PostsController < ApplicationController
 	
 def index
-	@results = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' })-[:likes*0..]->(friend),(friend)-[:latestpost]->(post)-[:nextpost*0..]->(second_old_post)").order("second_old_post.updated_at DESC").limit(80).pluck('distinct second_old_post', :friend)
+	@results = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' })-[:likes*0..]->(friend),(friend)-[:latestpost]->(post)-[:nextpost*0..]->(second_old_post)").where(" NOT ( second_old_post.status = 'delete') or (second_old_post.status is null)").order("second_old_post.updated_at DESC").limit(80).pluck('distinct second_old_post', :friend)
+	@user = current_user
 end
 
 def create
@@ -13,6 +14,12 @@ def create
 				@post.save!
 				@picture = Picture.find(params[:post_type_id])
 	  			@post_picture = PostPicture.create(from_node: @post, to_node: @picture)
+	  		end
+	  		if !params[:post_type].nil? && params[:post_type] == 'location'
+				@post.post_type = params[:post_type]
+				@post.save!
+				@picture = MyLocation.find(params[:post_type_id])
+	  			@post_location = PostLocation.create(from_node: @post, to_node: @picture)
 	  		end
 		  	rel = @user.rels(dir: :outgoing, type: "latestpost")
 		      unless rel.blank? 
@@ -35,12 +42,9 @@ def create
 end
 
 def destroy
-	@interest = Interest.find(params[:id])
-	rel = current_user.rels(type: :userInterests, between: @interest)
-	rel[0].destroy
-	@interest.destroy
-	@interests = current_user.userInterests
-	@interests_count = @interests.count
+	@post = Post.find(params[:id])
+	@post.status = 'delete'
+	@post.save!
 end
 
 def update
