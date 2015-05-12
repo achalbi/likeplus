@@ -165,6 +165,7 @@
         if(str == 'Beautiful%20princess' || str == 'Handsome%20prince' ){
             str = "Handsome%20prince%20/%20Beautiful%20princess"
         }
+        $(".badge-list").html("<div class='indicator inline'><span class='spinner'></span></div>");
         $(".badge-list").load("/my_badges/badge_list?type=" + str);
     });
 </script>

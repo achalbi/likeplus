@@ -3692,7 +3692,8 @@ a.thumbnail.active {
 }
 .touch .panel-body.slimscroll {
   overflow-x: hidden;
-  overflow-y: scroll;
+ /* overflow-y: scroll;*/
+  overflow-y: auto;
   -ms-overflow-style: -ms-autohiding-scrollbar;
   -webkit-overflow-scrolling: touch;
 }
@@ -4245,6 +4246,9 @@ a.list-group-item:focus {
   border-bottom-width: 0px;
 }
 /* border variation */
+.media-list > .media.border-dotted:last-child {
+  border-bottom-width: 0px;
+}
 .media-list > .media.border-dotted:after {
   border-bottom-style: dotted;
 }

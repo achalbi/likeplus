@@ -48,7 +48,19 @@ Rails.application.routes.draw do
   end
   
   resources :posts do
+    collection do
+      get :next_page
+    end
+     member do
+      get :badges
+    end
     resources :comments, shallow: true
+  end
+  
+   resources :comments do
+    member do
+      get :more
+    end
   end
 
   mount Sidekiq::Web, at: '/sidekiq'

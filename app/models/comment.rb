@@ -2,6 +2,7 @@ class Comment
   include Neo4j::ActiveNode
 
   property :content, :type => String, :index => :exact #, constraint: :unique
+  property :status, :type => String, :index => :exact #, constraint: :unique
   
    property :created_at  # will automatically be set when model changes
 	property :updated_at  # will automatically be set when model changes

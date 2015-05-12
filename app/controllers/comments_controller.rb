@@ -10,9 +10,8 @@ def create
 	@comment = Comment.create!(comment_params)
 	@rel1 =  UserComment.create!(from_node: @user, to_node: @comment)
 	@rel2 =  PostComment.create!(from_node: @post, to_node: @comment)
-	
-	@results = Neo4j::Session.query.match("(post { uuid: '#{@post.uuid}' })-[:postComment*..]->(comment),(comment)<-[:userComment]-(user)").order("comment.created_at DESC").limit(80).pluck(:comment, :user)
-
+	@results = Neo4j::Session.query.match("(post { uuid: '#{@post.uuid}' })-[:postComment*..]->(comment),(comment)<-[:userComment]-(user)").where(" NOT ( comment.status = 'delete') or (comment.status is null)").order("comment.created_at DESC").pluck(:comment, :user)
+	@pUser = User.find(params[:pUser_id])
 	respond_to do |format|
         format.js {  }
         format.json { }
@@ -20,19 +19,23 @@ def create
 end
 
 def destroy
-	@interest = Interest.find(params[:id])
-	rel = current_user.rels(type: :userInterests, between: @interest)
-	rel[0].destroy
-	@interest.destroy
-	@interests = current_user.userInterests
-	@interests_count = @interests.count
+	@post = Post.find(params[:post_id])
+	@comment = Comment.find(params[:id])
+	@comment.status = 'delete'
+	@comment.save!
+	@results = Neo4j::Session.query.match("(post { uuid: '#{@post.uuid}' })-[:postComment*..]->(comment),(comment)<-[:userComment]-(user)").where(" NOT ( comment.status = 'delete') or (comment.status is null)").order("comment.created_at DESC").pluck(:comment, :user)
+
 end
 
 def update
-	@interest = Interest.find(params[:id])
-	@interest.update!(interest_params)
-	@interests = current_user.userInterests
-	@interests_count = @interests.count
+	@comment = Comment.find(params[:id])
+	@comment.update!(comment_params)
+end
+
+def more
+	@post = Post.find(params[:id])
+	@results = Neo4j::Session.query.match("(post { uuid: '#{@post.uuid}' })-[:postComment*..]->(comment),(comment)<-[:userComment]-(user)").where(" NOT ( comment.status = 'delete') or (comment.status is null)").order("comment.created_at DESC").pluck(:comment, :user)
+	@pUser = User.find(params[:pUser_id])
 end
 
 private

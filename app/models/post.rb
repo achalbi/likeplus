@@ -14,5 +14,5 @@ class Post
   has_many :out, :comments,  model_class: Comment,  rel_class: PostComment
   has_many :out, :postPictures,  model_class: Picture,  rel_class: PostPicture
   has_one :out, :post_location,  model_class: MyLocation,  rel_class: PostLocation
-  has_one :in, :postBadges,  model_class: MyBadge,  rel_class: PostBadge
+  has_many :both, :postBadges,  model_class: MyBadge,  rel_class: PostBadge
 end

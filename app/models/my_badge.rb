@@ -8,7 +8,7 @@ class MyBadge
   has_one :in, :giveBadges,  model_class: User,  rel_class: GiveBadge
   has_one :out, :badgeDetails,  model_class: Badge,  rel_class: BadgeDetail
   has_one :in, :getBadges,  model_class: User,  rel_class: GetBadge
-  has_one :out, :postBadges,  model_class: Post,  rel_class: PostBadge
+  has_many :both, :postBadges,  model_class: Post,  rel_class: PostBadge
 
   validates :badgeType, :presence => true
 

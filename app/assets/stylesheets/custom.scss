@@ -315,6 +315,12 @@
 
   color: $primary-color !important;
   border-color: $primary-color !important;
+    &:hover {
+        color: white!important;
+        border-color: $primary-color !important;
+        background-color: $primary-color !important;
+    }
+
 }
 
 .btn-ubuntu{
@@ -410,3 +416,6 @@
 opacity: 0.5; 
 }
 
+.bt0{
+  border-top: 0px!important;
+}
