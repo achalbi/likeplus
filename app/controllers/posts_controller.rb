@@ -1,12 +1,12 @@
 class PostsController < ApplicationController
 	
 def index
-	@results = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' })-[:likes*0..]->(friend),(friend)-[:latestpost]->(post)-[:nextpost*0..]->(second_old_post)").where(" NOT ( second_old_post.status = 'delete') or (second_old_post.status is null)").order("second_old_post.updated_at DESC").limit(3).pluck('distinct second_old_post', :friend)
+	@results = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' })-[:likes*0..1]->(friend),(friend)-[:latestpost]->(post)-[:nextpost*0..]->(second_old_post)").where(" NOT ( second_old_post.status = 'delete') or (second_old_post.status is null)").order("second_old_post.updated_at DESC").limit(3).pluck('distinct second_old_post', :friend)
 	@user = current_user
 end
 
 def next_page
-	@results = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' })-[:likes*0..]->(friend),(friend)-[:latestpost]->(post)-[:nextpost*0..]->(second_old_post)").where(" NOT ( second_old_post.status = 'delete') or (second_old_post.status is null)").order("second_old_post.updated_at DESC").skip((3) * params[:page].to_i-3).limit(3).pluck('distinct second_old_post', :friend)
+	@results = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' })-[:likes*0..1]->(friend),(friend)-[:latestpost]->(post)-[:nextpost*0..]->(second_old_post)").where(" NOT ( second_old_post.status = 'delete') or (second_old_post.status is null)").order("second_old_post.updated_at DESC").skip((3) * params[:page].to_i-3).limit(3).pluck('distinct second_old_post', :friend)
 	@user = current_user
 end
 
